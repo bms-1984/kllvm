@@ -21,15 +21,21 @@ class GenerationTests {
         val okParamsBlock = mainFunction.createBlock("okParams")
         val koParamsBlock = mainFunction.createBlock("koParams")
 
-        val comparisonResult = mainFunction.tempValue(Comparison(ComparisonType.Equal,
-                mainFunction.paramReference(0), IntConst(N_PARAMS_EXPECTED + 1, I32Type)))
+        val comparisonResult = mainFunction.tempValue(
+            IntComparison(
+                IntComparisonType.Equal,
+                mainFunction.paramReference(0), IntConst(N_PARAMS_EXPECTED + 1, I32Type)
+            )
+        )
         mainFunction.addInstruction(IfInstruction(comparisonResult.reference(), okParamsBlock, koParamsBlock))
 
         // OK Block : convert to int, sum, and print
-        val aAsStringPtr = okParamsBlock.tempValue(GetElementPtr(STRING_TYPE, mainFunction.paramReference(1), IntConst(1, I64Type)))
+        val aAsStringPtr =
+            okParamsBlock.tempValue(GetElementPtr(STRING_TYPE, mainFunction.paramReference(1), IntConst(1, I64Type)))
         val aAsString = okParamsBlock.load(aAsStringPtr.reference())
         val aAsInt = okParamsBlock.tempValue(CallWithBitCast(atoiDeclaration, aAsString))
-        val bAsStringPtr = okParamsBlock.tempValue(GetElementPtr(STRING_TYPE, mainFunction.paramReference(1), IntConst(2, I64Type)))
+        val bAsStringPtr =
+            okParamsBlock.tempValue(GetElementPtr(STRING_TYPE, mainFunction.paramReference(1), IntConst(2, I64Type)))
         val bAsString = okParamsBlock.load(bAsStringPtr.reference())
         val bAsInt = okParamsBlock.tempValue(CallWithBitCast(atoiDeclaration, bAsString))
         val sum = okParamsBlock.tempValue(IntAddition(aAsInt.reference(), bAsInt.reference()))
