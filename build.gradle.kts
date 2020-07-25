@@ -38,7 +38,7 @@ publishing {
             }
         }
     }
-    publications { create<MavenPublication>("orwell") { from(components["java"]) } }
+    publications { create<MavenPublication>("kllvm") { from(components["java"]) } }
 }
 
 jacoco {

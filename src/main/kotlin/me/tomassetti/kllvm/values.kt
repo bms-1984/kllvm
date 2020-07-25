@@ -23,19 +23,25 @@ data class GlobalValueRef(val name: String, val type: Type) : Value {
     override fun IRCode() = "@$name"
 }
 
-class IntConst(val value: Int, val type: Type) : Value {
+class IntConst(val value: Int, val type: Type = I8Type) : Value {
     override fun type() = type
 
     override fun IRCode(): String = "$value"
 }
 
-class FloatConst(val value: Float, val type: Type) : Value {
+class FloatConst(val value: Float, val type: Type = FloatType) : Value {
     override fun type() = type
 
     override fun IRCode(): String = "$value"
 }
 
-data class Null(val type: Type) : Value {
+class DoubleConst(val value: Double, val type: Type = DoubleType) : Value {
+    override fun type() = type
+
+    override fun IRCode(): String = "$value"
+}
+
+data class Null(val type: Type = VoidType) : Value {
     override fun IRCode() = "null"
 
     override fun type() = type
