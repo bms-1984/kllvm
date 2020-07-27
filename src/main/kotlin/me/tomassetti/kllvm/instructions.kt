@@ -264,3 +264,13 @@ class ConversionUnsignedIntToFloat(val value: Value, val targetType: Type) : Ins
 
     override fun type() = targetType
 }
+
+class CustomInstruction(val name: String, val type: Type, vararg val params: String?) : Instruction {
+    override fun IRCode(): String {
+        var param: String? = null
+        params.forEach { param += " $it" }
+        return "$name $param"
+    }
+
+    override fun type() = type
+}
