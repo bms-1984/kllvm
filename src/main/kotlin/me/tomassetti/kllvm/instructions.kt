@@ -40,91 +40,33 @@ class JumpInstruction(val label: Label) : Instruction {
     override fun type() = null
 }
 
-enum class IntComparisonType(val code: String) {
-    Equal("eq"),
-    NotEqual("ne"),
-
-    /**
-     * >
-     */
-    GreaterThan("gt"),
-
-    /**
-     * >=
-     */
-    GreaterThanOrEqual("ge"),
-
-    /**
-     * <
-     */
-    LessThan("lt"),
-
-    /**
-     * <=
-     */
-    LessThanOrEqual("le"),
+enum class ComparisonType(val code: String) {
+    IntEqual("eq"),
+    IntNotEqual("ne"),
+    IntGreaterThan("gt"),
+    IntGreaterThanOrEqual("ge"),
+    IntLessThan("lt"),
+    IntLessThanOrEqual("le"),
+    FloatEqual("oeq"),
+    FloatNotEqual("one"),
+    FloatGreaterThan("ogt"),
+    FloatGreaterThanOrEqual("oge"),
+    FloatLessThan("olt"),
+    FloatLessThanOrEqual("ole"),
 }
 
-data class IntComparison(val comparisonType: IntComparisonType, val left: Value, val right: Value) : Instruction {
-    override fun IRCode() = "icmp ${comparisonType.code} ${left.type().IRCode()} ${left.IRCode()}, ${right.IRCode()}"
+data class IntComparison(val comparisonType: ComparisonType, val left: Value, val right: Value) : Instruction {
+    override fun IRCode() =
+        "icmp ${comparisonType.code} ${left.type().IRCode()} ${left.IRCode()}, ${right.IRCode()}"
+
     override fun type() = BooleanType
 }
 
-/**
- * Instruction type for comparing FloatConsts
- *
- * @property comparisonType which kind of comparison.
- * @property left left side.
- * @property right right side.
- */
-data class FloatComparison(val comparisonType: FloatComparisonType, val left: Value, val right: Value) : Instruction {
-    /**
-     * @return Generated IR
-     */
+data class FloatComparison(val comparisonType: ComparisonType, val left: Value, val right: Value) : Instruction {
     override fun IRCode(): String =
         "fcmp ${comparisonType.code} ${left.type().IRCode()} ${left.IRCode()}, ${right.IRCode()}"
 
-    /**
-     * @return Comparison type
-     */
     override fun type(): BooleanType = BooleanType
-}
-
-/**
- * Types of [FloatComparison]s
- *
- * @property code operator.
- */
-enum class FloatComparisonType(val code: String) {
-    /**
-     * =
-     */
-    Equal("oeq"),
-
-    /**
-     * !=
-     */
-    NotEqual("one"),
-
-    /**
-     * >
-     */
-    GreaterThan("ogt"),
-
-    /**
-     * >=
-     */
-    GreaterThanOrEqual("oge"),
-
-    /**
-     * <
-     */
-    LessThan("olt"),
-
-    /**
-     * <=
-     */
-    LessThanOrEqual("ole"),
 }
 
 class TempValue(val name: String, val value: Instruction) : Instruction {
