@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "1.4.0-rc"
-    id("org.jetbrains.dokka") version "0.10.1"
+    kotlin("jvm") version "1.4.0"
+    id("org.jetbrains.dokka") version "1.4.0-rc"
     jacoco
     `maven-publish`
 }
 
-val kllvmVersion = "0.1.4-SNAPSHOT"
+val kllvmVersion = "0.1.5-SNAPSHOT"
 
 project.group = "me.tomassetti"
 project.version = kllvmVersion
@@ -20,7 +20,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
@@ -54,6 +53,7 @@ tasks {
         from(configurations.compile.get().map {
             if (it.isDirectory) it else zipTree(it)
         })
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
     compileKotlin {
         kotlinOptions.jvmTarget = "13"
@@ -61,14 +61,7 @@ tasks {
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "13"
-    }
-    dokka {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/dokka/html"
-    }
-    register("dokkaMarkdown", org.jetbrains.dokka.gradle.DokkaTask::class) {
-        outputFormat = "gfm"
-        outputDirectory = "$buildDir/dokka/gfm"
+        kotlinOptions.suppressWarnings = true
     }
     processResources {
         filter { it.replace("%VERSION%", project.version.toString()) }
