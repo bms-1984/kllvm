@@ -183,6 +183,18 @@ class FloatSubtraction(val left: Value, val right: Value) : Instruction {
     override fun type() = type
 }
 
+class IntRemainder(val left: Value, val right: Value) : Instruction {
+    val type = left.type()
+    override fun IRCode() = "srem ${type.IRCode()} ${left.IRCode()}, ${right.IRCode()}"
+    override fun type() = type
+}
+
+class FloatRemainder(val left: Value, val right: Value) : Instruction {
+    val type = left.type()
+    override fun IRCode() = "frem ${type.IRCode()} ${left.IRCode()}, ${right.IRCode()}"
+    override fun type() = type
+}
+
 class ConversionFloatToSignedInt(val value: Value, val targetType: Type) : Instruction {
     override fun IRCode() = "fptosi ${value.type().IRCode()} ${value.IRCode()} to ${targetType.IRCode()}"
 

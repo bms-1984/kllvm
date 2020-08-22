@@ -5,7 +5,7 @@ plugins {
     `maven-publish`
 }
 
-val kllvmVersion = "0.1.5-SNAPSHOT"
+val kllvmVersion = "0.1.6-SNAPSHOT"
 
 project.group = "me.tomassetti"
 project.version = kllvmVersion
