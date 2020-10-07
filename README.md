@@ -1,3 +1,5 @@
+CURRENTLY DISCONTINUED
+
 # KLLVM
 
 KLLVM stands for Kotlin-LLVM. It is intended as a library to work with LLVM in Kotlin.
